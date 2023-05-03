@@ -2,7 +2,14 @@ const express = require("express")
 const app = express()
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const authRoute = require("./routes/auth")
+
+app.use(express.json())
+
 dotenv.config();
+
+
+
 
 mongoose
   .set("strictQuery", false)
@@ -13,7 +20,27 @@ mongoose
   .then(() => console.log("Db connected"))
   .catch((err) => console.log(err));
 
-const port = process.env.PORT || 8080
+
+app.use("/api",authRoute)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const port = process.env.PORT || 8080
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}.`)
