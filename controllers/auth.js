@@ -1,6 +1,9 @@
 const User = require("../models/User");
 const mongoose = require("mongoose");
 const CryptoJS = require("crypto-js");
+const jwt = require("jsonwebtoken");
+const { createError } = require("../error");
+const cookieParser =require("cookie-parser")
 
 exports.registerUser = async (req, res, next) => {
   const newUser = new User({
@@ -19,7 +22,7 @@ exports.registerUser = async (req, res, next) => {
   }
 };
 
-exports.signin = async (req, res, next) => {
+exports.login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return next(createError(404, "User not found"));
@@ -28,7 +31,6 @@ exports.signin = async (req, res, next) => {
       process.env.PASS_SEC
     );
     const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
-
     if (originalPassword !== req.body.password)
       return res.status(401).json("Wrong Credentials!");
 
@@ -50,3 +52,4 @@ exports.signin = async (req, res, next) => {
     res.status(500).json(err);
   }
 };
+
