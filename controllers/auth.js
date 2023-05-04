@@ -6,21 +6,26 @@ const { createError } = require("../error");
 const cookieParser =require("cookie-parser")
 
 exports.registerUser = async (req, res, next) => {
-  const newUser = new User({
-    handle: req.body.handle,
-    email: req.body.email,
-    password: CryptoJS.AES.encrypt(
-      req.body.password,
-      process.env.PASS_SEC
-    ).toString(),
-  });
-  try {
-    const savedUser = await newUser.save();
-    res.status(200).json(savedUser);
-  } catch (err) {
-    res.status(500).json(err);
+  const {handle,email,password,category} = req.body;
+  console.log(req.body);
+  try{
+    const findUser = await User.findOne({ email:email });
+    if(findUser){return res.json({message:"User already exists",status:"fail"}) }
+    const defaultLink = {url: 'youtube.com',title:"Youtube",icon:""}
+
+    const user = await User.create({handle,email,password,role:category,links:[defaultLink]})
+
+    const token = jwt.sign({email:email},process.env.PASS_SEC)
+    return res.json({message:'success',status:'success','token':token,id:user._id})
+  }catch(err){
+    if(err.code === '11000'){
+      return res.json({message: "Try a different handle or email",status: 'error'})
+    }
+    return res.json({message:err.message,status:'error'})
   }
-};
+}
+
+
 
 exports.login = async (req, res, next) => {
   try {
