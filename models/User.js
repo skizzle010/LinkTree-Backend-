@@ -8,8 +8,6 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     avatar: {
       type: String,
-      default:
-        "https://freeicons.io/among-us/among-us-game-avatar-characters-hero-icon-52814",
     },
     roles: {
       type: String,

@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const authRoute = require("./routes/auth");
 const cookieParser = require("cookie-parser");
+const dashRoute = require('./routes/dashboard')
 
 dotenv.config();
 app.use(cors());
@@ -31,6 +32,7 @@ app.use((err, req, res, next) => {
 });
 
 app.use("/api", authRoute);
+app.use("/data/",dashRoute);
 
 const port = process.env.PORT || 8080;
 
