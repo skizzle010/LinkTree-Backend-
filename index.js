@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const authRoute = require("./routes/auth");
 const cookieParser = require("cookie-parser");
 const dashRoute = require('./routes/dashboard')
+const handleRoute = require('./routes/[handle]')
 
 dotenv.config();
 app.use(cors());
@@ -33,6 +34,7 @@ app.use((err, req, res, next) => {
 
 app.use("/api", authRoute);
 app.use("/data/",dashRoute);
+app.use("/get/",handleRoute);
 
 const port = process.env.PORT || 8080;
 

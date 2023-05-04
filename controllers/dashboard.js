@@ -17,7 +17,7 @@ exports.dashBoardData = async(req,res)=>{
         }
         return res.json({message:'success from backend',userData,status:'okay'})
     }catch(err){
-        return res.json({status: 'error',error:error.message })
+        return res.json({status: 'error',error: error.message })
     }
 }
 

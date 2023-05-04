@@ -12,8 +12,9 @@ exports.registerUser = async (req, res, next) => {
     const findUser = await User.findOne({ email:email });
     if(findUser){return res.json({message:"User already exists",status:"fail"}) }
     const defaultLink = {url: 'youtube.com',title:"Youtube",icon:""}
+    const defaultLink2 = {url: 'instagram.com',title:"Instagram",icon:""}
 
-    const user = await User.create({handle,email,password,role:category,links:[defaultLink]})
+    const user = await User.create({handle,email,password,role:category,links:[defaultLink,defaultLink2]})
 
     const token = jwt.sign({email:email},process.env.JWT_SEC)
     return res.json({message:'success',status:'success','token':token,id:user._id})
