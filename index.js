@@ -7,6 +7,7 @@ const authRoute = require("./routes/auth");
 const cookieParser = require("cookie-parser");
 const dashRoute = require('./routes/dashboard')
 const handleRoute = require('./routes/[handle]')
+const socialRoute = require('./routes/socials')
 
 dotenv.config();
 app.use(cors());
@@ -35,6 +36,7 @@ app.use((err, req, res, next) => {
 app.use("/api", authRoute);
 app.use("/data/",dashRoute);
 app.use("/get/",handleRoute);
+app.use("/get/socials/",socialRoute);
 
 const port = process.env.PORT || 8080;
 
