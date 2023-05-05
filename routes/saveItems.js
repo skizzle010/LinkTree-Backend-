@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const {loadLinks} = require('../controllers/loadlinks');
+const {saveLinks} = require('../controllers/saveItems');
 
-router.post('/links',loadLinks);
+router.post('/links',saveLinks);
 
 module.exports = router;
