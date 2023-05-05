@@ -12,7 +12,6 @@ const UserSchema = new mongoose.Schema(
     roles: {
       type: String,
       enum: ["Imposter", "Brand", "Agency", "admin"],
-      default: "Imposter",
     },
     handle: { type: String, required: true, unique: true },
     links: [

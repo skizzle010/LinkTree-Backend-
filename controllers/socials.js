@@ -8,7 +8,7 @@ exports.getUserSocials = async (req, res, next) => {
         const socials = user.socialMedia;
         return res.json({message:'found',socials, status: 'success'})
     }catch(err){
-        return res.json({message:'not found', status: 'error', error: error.message})
+        return res.json({message:'not found', status: 'error', error: err.message})
     }
 }
 

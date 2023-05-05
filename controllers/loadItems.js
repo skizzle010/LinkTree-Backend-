@@ -10,7 +10,7 @@ exports.loadLinks = async(req,res)=>{
         const links = user.links;
         return res.json({message:'found',links,status:'success'})
     }catch(err){
-        return res.json({status: 'error',error: error.message })
+        return res.json({status: 'error',error: err.message })
     }
 
 }
