@@ -3,7 +3,6 @@ const jwt_decode = require('jwt-decode')
 
 exports.dashBoardData = async(req,res)=>{
     const {tokenMail}=req.body;
-    console.log(tokenMail)
     try{
         const decodedTokenMail = jwt_decode(tokenMail,process.env.JWT_SEC)
         const email = decodedTokenMail.email;
@@ -18,7 +17,8 @@ exports.dashBoardData = async(req,res)=>{
         }
         return res.json({message:'success from backend',userData,status:'okay'})
     }catch(err){
-        return res.json({status: 'error',error: error.message })
+        console.log(err);
+        return res.json({status: 'error',error: err.message })
     }
 }
 

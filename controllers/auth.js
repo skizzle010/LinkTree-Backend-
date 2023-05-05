@@ -7,7 +7,6 @@ const cookieParser =require("cookie-parser")
 
 exports.registerUser = async (req, res, next) => {
   const {handle,email,password,category} = req.body;
-  console.log(req.body);
   try{
     const findUser = await User.findOne({ email:email });
     if(findUser){return res.json({message:"User already exists",status:"fail"}) }
@@ -34,7 +33,7 @@ exports.registerUser = async (req, res, next) => {
     const { email, password } = req.body;
     try {
         const user = User.findOne({email: email, password: password});
-        console.log(user);
+
         if(!user){
             return res.json({status: 'not found', error: 'Invalid credentials'})
         }
