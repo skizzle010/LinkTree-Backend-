@@ -3,19 +3,21 @@ const mongoose = require("mongoose");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const { createError } = require("../error");
-const cookieParser =require("cookie-parser")
+const bcrypt = require("bcryptjs");
+
+
 
 exports.registerUser = async (req, res, next) => {
-  const {handle,email,password,category} = req.body;
-  console.log(category);
+  const {handle,email,password,category,socialMedia} = req.body;
+  const salt = await bcrypt.genSalt()
+  hashpwd = await bcrypt.hash(password, salt);
   try{
     const findUser = await User.findOne({ email:email });
     if(findUser){return res.json({message:"User already exists",status:"fail"}) }
     const defaultLink = {url: 'youtube.com',title:"Youtube",icon:""}
     const defaultLink2 = {url: 'instagram.com',title:"Instagram",icon:""}
-
-    const user = await User.create({handle,email,password,roles:category,links:[defaultLink,defaultLink2]})
-    console.log(user);
+    console.log(socialMedia)
+    const user = await User.create({handle,email,password:hashpwd,roles:category,links:[defaultLink,defaultLink2],socialMedia:socialMedia})
 
     const token = jwt.sign({email:email},process.env.JWT_SEC)
     return res.json({message:'success',status:'success','token':token,id:user._id})
@@ -31,11 +33,10 @@ exports.registerUser = async (req, res, next) => {
 
 
 
-  exports.login = (req, res)=>{
+  exports.login = async (req, res)=>{
     const { email, password } = req.body;
     try {
         const user = User.findOne({email: email, password: password});
-
         if(!user){
             return res.json({status: 'not found', error: 'Invalid credentials'})
         }
